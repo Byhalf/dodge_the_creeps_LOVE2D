@@ -1,0 +1,1 @@
+I am recreating the godot 2D tutorial in lua. This is my first time using lua, I am using a bit of code from https://cs50.harvard.edu/games/2018/weeks/ (StateMachine) and art assets from https://godotengine.org/asset-library/asset/515
