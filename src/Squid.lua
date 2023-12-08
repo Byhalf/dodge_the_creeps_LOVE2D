@@ -18,6 +18,8 @@ function Squid:init(enemies)
     self.scaleY = 0.25
     self.collision = HC.circle(self.x, self.y, 13)
     self.colisionColor = {0,0,100,0.3}
+    self.time = love.timer.getTime()
+
 
 end
 
@@ -60,10 +62,10 @@ function Squid:update(dt)
 
     self.collision:moveTo(self.x, self.y)
     if self:checkCollisions(self.enemies, self) then
-        --gStateMachine:change('gameover')
-        self.colisionColor = {0,0,100,0.3}
-    else
-        self.colisionColor = {0,100,0,0.3}
+        
+        gStateMachine:change('gameover', {
+            score = math.ceil(love.timer.getTime()- self.time),
+        })
     end
 
 end

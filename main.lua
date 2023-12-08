@@ -2,22 +2,18 @@ require 'src/Dependencies'
 require 'src/StateMachine'
 require 'src/states/BaseState'
 require 'src/states/PlayState'
+require 'src/states/HomeState'
+require 'src/states/HighScoreState'
+require 'src/states/GameOverState'
+require 'src/states/EnterHighScoreState'
 require 'src/Squid'
 require 'src/Enemy'
 require 'src/EnemiesSpawner'
 
--- physical screen dimensions
-WINDOW_WIDTH = 1280
-WINDOW_HEIGHT = 720
 
--- virtual resolution dimensions
-VIRTUAL_WIDTH = 300
-VIRTUAL_HEIGHT = 300
 
 function love.load()
-    -- set love's default filter to "nearest-neighbor", which essentially
-    -- means there will be no filtering of pixels (blurriness), which is
-    -- important for a nice crisp, 2D look
+    -- set love's default filter to "nearest" so no bluriness
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
     -- seed the RNG so that calls to random are always random
@@ -52,9 +48,13 @@ function love.load()
    -- }
     -- initialize state machine with all state-returning functions
     gStateMachine = StateMachine {
-        ['play'] = function() return PlayState() end
+        ['play'] = function() return PlayState() end,
+        ['home'] = function () return HomeState() end,
+        ['highScore'] = function () return HighScoreState() end,
+        ['gameover'] = function () return GameOverState()   end,
+        ['enterHighScore'] = function () return EnterHighScoreState() end
     }
-    gStateMachine:change('play')
+    gStateMachine:change('home')
 
 
     -- a table we'll use to keep track of which keys have been pressed this
@@ -82,7 +82,6 @@ end
     across system hardware.
 ]]
 function love.update(dt)
-
     gStateMachine:update(dt)
     love.keyboard.keysPressed = {}
 end
@@ -120,7 +119,7 @@ function love.draw()
     push:start()
 
 
-    love.graphics.clear(40/255, 45/255, 52/255, 255/255)
+    love.graphics.clear(0, 102/255, 153/255, 255/255)
     gStateMachine:render()
 
     -- display FPS for debugging; simply comment out to remove
