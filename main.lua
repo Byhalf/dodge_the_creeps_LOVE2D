@@ -42,10 +42,14 @@ function love.load()
 
     -- set up our sound effects; later, we can just index this table and
     -- call each entry's `play` method
-  --  gSounds = {
- --       ['paddle-hit'] = love.audio.newSource('sounds/paddle_hit.wav', 'static'),
+    gSounds = {
+        ['gameover'] = love.audio.newSource('art/gameover.wav', 'static'),
+        ['music'] = love.audio.newSource('art/House In a Forest Loop.ogg','stream')
+    }
 
-   -- }
+    gSounds['music']:setLooping(true)
+    gSounds['music']:play()
+
     -- initialize state machine with all state-returning functions
     gStateMachine = StateMachine {
         ['play'] = function() return PlayState() end,
@@ -123,7 +127,7 @@ function love.draw()
     gStateMachine:render()
 
     -- display FPS for debugging; simply comment out to remove
-    displayFPS()
+    --displayFPS()
 
     push:finish()
 end

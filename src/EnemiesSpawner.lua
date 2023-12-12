@@ -25,7 +25,7 @@ function EnemiesSpawner:render()
 end
 
 function EnemiesSpawner:spawnEnemies()
-    for _=1,10 do
+    for _=1,20 do
         table.insert(self.enemies, Enemy(self:getCoordinatesAndSpeed()))
     end
 end
